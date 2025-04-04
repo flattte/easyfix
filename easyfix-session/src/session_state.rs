@@ -249,4 +249,8 @@ impl<S: MessagesStorage> State<S> {
     pub fn set_input_timoeut_cnt(&mut self, timoeut_cnt: u32) {
         self.input_timeout_cnt = timoeut_cnt;
     }
+
+    pub fn messages_store(&self) -> &S {
+        &self.messages_store
+    }
 }

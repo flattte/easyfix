@@ -1,5 +1,5 @@
 use std::{
-    cell::RefCell,
+    cell::{Ref, RefCell},
     collections::HashMap,
     future::Future,
     io,
@@ -107,6 +107,12 @@ impl<S: MessagesStorage> SessionsMap<S> {
         session_id: &SessionId,
     ) -> Option<(SessionSettings, Rc<RefCell<SessionState<S>>>)> {
         self.map.get(session_id).cloned()
+    }
+
+    pub fn get_session_messages_store(&self, session_id: &SessionId) -> Option<Ref<S>> {
+        self.map
+            .get(session_id)
+            .map(|(_, state)| Ref::map(state.borrow(), |state| state.messages_store()))
     }
 }
 
